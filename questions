@@ -1,12 +1,15 @@
 #!/usr/bin/env ruby
 require 'pry'
 
+#find way to accept questions into hash, test if works
+#find way to print hash to .txt file
+#build the write function into a class (global hash)
+
 ## INPUT/DISPLAY CODE
 
-#load questions.txt file into program
 def loadArray
 	questions = []
-	File.read('/Users/jamielocatis/questions.txt').each_line do |line|
+	File.read('questions.txt').each_line do |line|
 		questions << line.delete("\n")
 	end
 	questions.each do |x|
@@ -15,21 +18,12 @@ def loadArray
 	return questions
 end
 
-#add a question to the questions.txt file
 def addQuestion(questions, question)
 	question.join(" ")
 	question = question.shift
 	questions << question
 end
 
-#remove a question from the questions.txt file
-def removeQuestion(questions, q_to_remove)
-	q_to_remove = q_to_remove.to_i - 1
-	questions.delete_at(q_to_remove)
-	return questions
-end
-
-#update questions.txt after adding/removing a question
 def updateTxtFile(questions)
 	list_of_questions = ""
 	questions.map! {|word|"#{word}\n"}
@@ -37,13 +31,18 @@ def updateTxtFile(questions)
 		front = questions.index(x) + 1
 		list_of_questions << front.to_s + ". " + x.to_s
 	end
-	File.open('/Users/jamielocatis/questions.txt', 'w') do |file|
+	File.open('questions.txt', 'w') do |file|
 		file.write(list_of_questions)
 		file.close
 	end
 end
 
-## DISPLAY CODE
+def removeQuestion(questions, q_to_remove)
+	q_to_remove = q_to_remove.to_i - 1
+	questions.delete_at(q_to_remove)
+	return questions
+end
+###
 
 questions = loadArray()
 
@@ -58,6 +57,6 @@ elsif inputType == 'rm'
 	removeQuestion(questions, input[0])
 	updateTxtFile(questions)
 else
-	file = File.open('/Users/jamielocatis/questions.txt')
+	file = File.open('questions.txt')
 		print file.read
 end
